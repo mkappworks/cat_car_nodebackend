@@ -1,6 +1,7 @@
 const express = require("express");
-const catController = require("../controller/catController");
 const router = express.Router();
+
+const catController = require("../controller/cat_controller");
 
 router.get("/", catController);
 
