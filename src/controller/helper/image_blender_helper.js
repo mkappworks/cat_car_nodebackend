@@ -3,19 +3,24 @@ require("dotenv").config();
 
 //helper function to merge and transform the images from the response of apiHelper
 const imageBlenderHelper = async (catResponse) => {
-  //merging the two response images
-  const mergedImage = await mergeImg([
-    { src: catResponse[0], offsetX: 0, offsetY: 0 },
-    { src: catResponse[1], offsetX: +process.env.CAT_WIDTH, offsetY: 0 },
-  ]);
+  try {
+    //merging the two response images
+    const mergedImage = await mergeImg([
+      { src: catResponse[0], offsetX: 0, offsetY: 0 },
+      { src: catResponse[1], offsetX: +process.env.CAT_WIDTH, offsetY: 0 },
+    ]);
 
-  //resizing the merged image
-  const resizedImage = await mergedImage.resize(
-    +process.env.CAT_WIDTH * 2,
-    +process.env.CAT_HEIGHT
-  );
+    //resizing the merged image
+    const resizedImage = await mergedImage.resize(
+      +process.env.CAT_WIDTH * 2,
+      +process.env.CAT_HEIGHT
+    );
 
-  return resizedImage;
+    return resizedImage;
+  } catch (error) {
+    const err = new Error("Cannot merge the two images");
+    throw err;
+  }
 };
 
 module.exports = imageBlenderHelper;
